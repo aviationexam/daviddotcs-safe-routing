@@ -1,5 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <ReportAnalyzer>true</ReportAnalyzer>
+    <CompilerGeneratedFilesOutputPath>..\..\GeneratedFiles\Integration\$(TargetFramework)</CompilerGeneratedFilesOutputPath>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(SafeRoutingPackageVersion)' != ''">
     <RestoreAdditionalProjectSources>
       https://api.nuget.org/v3/index.json;
