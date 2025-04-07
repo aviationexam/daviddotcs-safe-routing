@@ -3,19 +3,19 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
-    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.156" />
-    <PackageVersion Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.193" />
+    <PackageVersion Include="Microsoft.AspNetCore" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-    <PackageVersion Include="PolySharp" Version="1.14.1" />
-    <PackageVersion Include="Verify.SourceGenerators" Version="2.2.0" />
-    <PackageVersion Include="Verify.Xunit" Version="25.0.2" />
-    <PackageVersion Include="xunit" Version="2.8.1" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.1" />
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
+    <PackageVersion Include="Verify.SourceGenerators" Version="2.5.0" />
+    <PackageVersion Include="Verify.XunitV3" Version="29.0.2" />
+    <PackageVersion Include="xunit.v3" Version="2.0.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
   </ItemGroup>
 </Project>

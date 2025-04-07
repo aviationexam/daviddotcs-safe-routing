@@ -3,7 +3,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Verify.SourceGenerators" />
-    <PackageReference Include="Verify.Xunit" />
+    <PackageReference Include="Verify.XunitV3" />
   </ItemGroup>
 
   <ItemGroup>
