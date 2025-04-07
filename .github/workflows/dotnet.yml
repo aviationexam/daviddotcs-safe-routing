@@ -7,20 +7,24 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  unit-test:
     runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
 
     defaults:
       run:
         working-directory: ./src
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Setup .Net
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.x
+        dotnet-version: |
+          8.0.x
+          9.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -36,8 +40,25 @@ jobs:
       with:
         commit_message: Update generated files
 
+    - name: Restore
+      run: dotnet restore --nologo
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --nologo --configuration Release
 
     - name: Test
-      run: dotnet test --no-build --no-restore --verbosity normal
+      run: dotnet test --nologo --no-build --configuration Release
+
+  code-style:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .Net 9.0.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Restore
+        run: dotnet restore --nologo src
+      - name: .Net Format
+        run: dotnet format --no-restore --verify-no-changes -v diag src

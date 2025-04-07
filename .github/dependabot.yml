@@ -4,3 +4,17 @@ updates:
     directory: "/src"
     schedule:
       interval: "daily"
+    groups:
+      microsoft:
+        patterns:
+          - Microsoft.*
+          - System.*
+      xunit:
+        patterns:
+          - xunit
+          - xunit.*
+
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
