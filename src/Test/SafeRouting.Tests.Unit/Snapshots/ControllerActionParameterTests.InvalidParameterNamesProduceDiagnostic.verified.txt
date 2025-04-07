@@ -1,44 +1,80 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0003,
-      Title: Invalid identifier,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (6,5)-(6,34),
-      MessageFormat: The text '{0}' is not a valid C# identifier,
+      Location: /*
+  public IActionResult Index(
+    [RouteGeneratorName("%&*$#(.")] string a,
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    [RouteGeneratorName("")] string b,
+*/
+ : (6,5)-(6,34),
       Message: The text '%&*$#(.' is not a valid C# identifier,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0003,
+        Title: Invalid identifier,
+        MessageFormat: The text '{0}' is not a valid C# identifier,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     },
     {
-      Id: CSR0003,
-      Title: Invalid identifier,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (7,5)-(7,27),
-      MessageFormat: The text '{0}' is not a valid C# identifier,
+      Location: /*
+    [RouteGeneratorName("%&*$#(.")] string a,
+    [RouteGeneratorName("")] string b,
+     ^^^^^^^^^^^^^^^^^^^^^^
+    [RouteGeneratorName("3")] string c,
+*/
+ : (7,5)-(7,27),
       Message: The text '' is not a valid C# identifier,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0003,
+        Title: Invalid identifier,
+        MessageFormat: The text '{0}' is not a valid C# identifier,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     },
     {
-      Id: CSR0003,
-      Title: Invalid identifier,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (8,5)-(8,28),
-      MessageFormat: The text '{0}' is not a valid C# identifier,
+      Location: /*
+    [RouteGeneratorName("")] string b,
+    [RouteGeneratorName("3")] string c,
+     ^^^^^^^^^^^^^^^^^^^^^^^
+    [RouteGeneratorName("@")] string d
+*/
+ : (8,5)-(8,28),
       Message: The text '3' is not a valid C# identifier,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0003,
+        Title: Invalid identifier,
+        MessageFormat: The text '{0}' is not a valid C# identifier,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     },
     {
-      Id: CSR0003,
-      Title: Invalid identifier,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (9,5)-(9,28),
-      MessageFormat: The text '{0}' is not a valid C# identifier,
+      Location: /*
+    [RouteGeneratorName("3")] string c,
+    [RouteGeneratorName("@")] string d
+     ^^^^^^^^^^^^^^^^^^^^^^^
+  ) => View();
+*/
+ : (9,5)-(9,28),
       Message: The text '@' is not a valid C# identifier,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0003,
+        Title: Invalid identifier,
+        MessageFormat: The text '{0}' is not a valid C# identifier,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

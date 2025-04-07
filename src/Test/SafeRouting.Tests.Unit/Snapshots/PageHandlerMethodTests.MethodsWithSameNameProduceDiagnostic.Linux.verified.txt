@@ -1,14 +1,30 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0001,
-      Title: Conflicting methods,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: /Project/Pages/Products/Edit.cshtml.cs: (2,0)-(6,1),
-      MessageFormat: The class '{0}' contains multiple methods which map to the route method '{1}',
+      Location: /*
+
+public sealed class EditModel : PageModel
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+{
+^
+  public void OnGet() { }
+^^^^^^^^^^^^^^^^^^^^^^^^^
+  public void OnGet(string foo) { }
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+^
+*/
+ \Project\Pages\Products\Edit.cshtml.cs: (2,0)-(6,1),
       Message: The class 'EditModel' contains multiple methods which map to the route method 'Get',
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0001,
+        Title: Conflicting methods,
+        MessageFormat: The class '{0}' contains multiple methods which map to the route method '{1}',
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

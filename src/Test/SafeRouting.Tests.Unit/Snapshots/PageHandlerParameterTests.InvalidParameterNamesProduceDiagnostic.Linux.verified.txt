@@ -1,14 +1,23 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0003,
-      Title: Invalid identifier,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: /Project/Pages/Products/Edit.cshtml.cs: (5,21)-(5,50),
-      MessageFormat: The text '{0}' is not a valid C# identifier,
+      Location: /*
+{
+  public void OnGet([RouteGeneratorName("%&*$#(.")] string myValue)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  {
+*/
+ \Project\Pages\Products\Edit.cshtml.cs: (5,21)-(5,50),
       Message: The text '%&*$#(.' is not a valid C# identifier,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0003,
+        Title: Invalid identifier,
+        MessageFormat: The text '{0}' is not a valid C# identifier,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

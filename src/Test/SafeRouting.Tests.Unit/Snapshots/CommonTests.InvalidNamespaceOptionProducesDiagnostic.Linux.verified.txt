@@ -1,14 +1,16 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0002,
-      Title: Invalid options,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (0,0)-(0,0),
-      MessageFormat: Value for the option '{0}' is invalid. {1},
       Message: Value for the option 'safe_routing.generated_namespace' is invalid. 'x.1nvalid Namespace,[]!' is not a valid namespace identifier.,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0002,
+        Title: Invalid options,
+        MessageFormat: Value for the option '{0}' is invalid. {1},
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

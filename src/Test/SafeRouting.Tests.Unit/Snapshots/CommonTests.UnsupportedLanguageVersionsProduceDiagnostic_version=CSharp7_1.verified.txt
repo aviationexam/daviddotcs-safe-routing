@@ -1,14 +1,16 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0006,
-      Title: Unsupported Language Version,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (0,0)-(0,0),
-      MessageFormat: C# 8 or later is required for route generation,
       Message: C# 8 or later is required for route generation,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0006,
+        Title: Unsupported Language Version,
+        MessageFormat: C# 8 or later is required for route generation,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

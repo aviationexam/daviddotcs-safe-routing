@@ -1,14 +1,29 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0004,
-      Title: Conflicting Controller,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (12,2)-(15,3),
-      MessageFormat: The controller '{0}' conflicts with another controller of the same name,
+      Location: /*
+{
+  public sealed class ProductsController : Controller
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  {
+^^^
+    public IActionResult Index() => View();
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  }
+^^^
+}
+*/
+ : (12,2)-(15,3),
       Message: The controller 'Products' conflicts with another controller of the same name,
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0004,
+        Title: Conflicting Controller,
+        MessageFormat: The controller '{0}' conflicts with another controller of the same name,
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

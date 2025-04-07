@@ -1,14 +1,25 @@
 ﻿{
   Diagnostics: [
     {
-      Id: CSR0001,
-      Title: Conflicting methods,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (7,2)-(8,68),
-      MessageFormat: The class '{0}' contains multiple methods which map to the route method '{1}',
+      Location: /*
+
+  [HttpPost]
+  ^^^^^^^^^^
+  public IActionResult Index([FromForm] string someValue) => View();
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+*/
+ : (7,2)-(8,68),
       Message: The class 'ProductsController' contains multiple methods which map to the route method 'Index()',
-      Category: SafeRouting.Generator.RouteGenerator
+      Severity: Error,
+      Descriptor: {
+        Id: CSR0001,
+        Title: Conflicting methods,
+        MessageFormat: The class '{0}' contains multiple methods which map to the route method '{1}',
+        Category: SafeRouting.Generator.RouteGenerator,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }
