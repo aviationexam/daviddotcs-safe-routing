@@ -1,6 +1,5 @@
 ﻿@page
 @model SafeRouting.Demo.Pages.EditModel
-@{ #region CshtmlExample }
 
 @{
   var controllerRoute = Routes.Controllers.Product.Search("chair", 10);
@@ -21,5 +20,3 @@
 <form method="post">
   <button type="submit" for-route="pageHandlerRoute">Delete</button>
 </form>
-
-@{ #endregion }
