@@ -14,6 +14,7 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp10)]
   [InlineData(LanguageVersion.CSharp11)]
   [InlineData(LanguageVersion.CSharp12)]
+  [InlineData(LanguageVersion.CSharp13)]
   public Task GlobalUsingsGeneratedForSupportedLanguageVersions(LanguageVersion version)
   {
     return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
@@ -323,6 +324,7 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp10)]
   [InlineData(LanguageVersion.CSharp11)]
   [InlineData(LanguageVersion.CSharp12)]
+  [InlineData(LanguageVersion.CSharp13)]
   public Task SupportedLanguageVersionsBuild(LanguageVersion version)
   {
     return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
