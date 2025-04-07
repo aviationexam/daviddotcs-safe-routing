@@ -45,11 +45,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore --nologo
 
-    - name: Build with .Net
-      run: dotnet build --configuration Release --no-restore --nologo "-p:Version=${{ steps.gitversion.outputs.MajorMinorPatch }}"
-
     - name: Pack
-      run: dotnet pack --nologo --no-build ./SafeRouting.Generator -c Release -o ./artifacts /p:ContinuousIntegrationBuild=true -p:Version=${{ steps.gitversion.outputs.MajorMinorPatch }}
+      run: dotnet pack --nologo --no-restore ./SafeRouting.Generator -c Release -o ./artifacts /p:ContinuousIntegrationBuild=true -p:Version=${{ steps.gitversion.outputs.MajorMinorPatch }}
+
+    - name: Build integration tests
+      run: dotnet build Test/SafeRouting.Tests.Integration -c Release -p:SafeRoutingPackageVersion=${{ steps.gitversion.outputs.MajorMinorPatch }}
 
     - name: Run integration tests
       run: dotnet test Test/SafeRouting.Tests.Integration -c Release --no-build --no-restore
