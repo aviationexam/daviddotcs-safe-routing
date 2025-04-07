@@ -148,7 +148,7 @@ public static class RouteValueExtensions
   /// <param name="fragment">A URI fragment. Optional. Appended to the resulting URI.</param>
   /// <param name="options">An optional <see cref="LinkOptions"/>. Settings on provided object override the settings with matching names from <c>RouteOptions</c>.</param>
   /// <returns>A URI with an absolute path, or <see langword="null" /> if a URI cannot be created.</returns>
-  public static string Path(this IPageRouteValues route, LinkGenerator generator, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Path(this IPageRouteValues route, LinkGenerator generator, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetPathByPage(route.PageName, route.HandlerName, route.RouteValues, pathBase, fragment, options);
 
   /// <summary>
@@ -161,7 +161,7 @@ public static class RouteValueExtensions
   /// <param name="fragment">A URI fragment. Optional. Appended to the resulting URI.</param>
   /// <param name="options">An optional <see cref="LinkOptions"/>. Settings on provided object override the settings with matching names from <c>RouteOptions</c>.</param>
   /// <returns>A URI with an absolute path, or <see langword="null" /> if a URI cannot be created.</returns>
-  public static string Path(this IPageRouteValues route, LinkGenerator generator, HttpContext httpContext, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Path(this IPageRouteValues route, LinkGenerator generator, HttpContext httpContext, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetPathByPage(httpContext, route.PageName, route.HandlerName, route.RouteValues, pathBase, fragment, options);
 
   /// <summary>
@@ -183,7 +183,7 @@ public static class RouteValueExtensions
   /// your deployment environment.
   /// </para>
   /// </remarks>
-  public static string Url(this IPageRouteValues route, LinkGenerator generator, string scheme, HostString host, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Url(this IPageRouteValues route, LinkGenerator generator, string scheme, HostString host, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetUriByPage(route.PageName, route.HandlerName, route.RouteValues, scheme, host, pathBase, fragment, options);
 
   /// <summary>
@@ -206,7 +206,7 @@ public static class RouteValueExtensions
   /// your deployment environment.
   /// </para>
   /// </remarks>
-  public static string Url(this IPageRouteValues route, LinkGenerator generator, HttpContext httpContext, string? scheme = null, HostString? host = null, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Url(this IPageRouteValues route, LinkGenerator generator, HttpContext httpContext, string? scheme = null, HostString? host = null, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetUriByPage(httpContext, route.PageName, route.HandlerName, route.RouteValues, scheme, host, pathBase, fragment, options);
 
   /// <summary>
@@ -218,7 +218,7 @@ public static class RouteValueExtensions
   /// <param name="fragment">A URI fragment. Optional. Appended to the resulting URI.</param>
   /// <param name="options">An optional <see cref="LinkOptions"/>. Settings on provided object override the settings with matching names from <c>RouteOptions</c>.</param>
   /// <returns>A URI with an absolute path, or <see langword="null" /> if a URI cannot be created.</returns>
-  public static string Path(this IControllerRouteValues route, LinkGenerator generator, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Path(this IControllerRouteValues route, LinkGenerator generator, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetPathByAction(route.ActionName, route.ControllerName, route.RouteValues, pathBase, fragment, options);
 
   /// <summary>
@@ -231,7 +231,7 @@ public static class RouteValueExtensions
   /// <param name="fragment">A URI fragment. Optional. Appended to the resulting URI.</param>
   /// <param name="options">An optional <see cref="LinkOptions"/>. Settings on provided object override the settings with matching names from <c>RouteOptions</c>.</param>
   /// <returns>A URI with an absolute path, or <see langword="null" /> if a URI cannot be created.</returns>
-  public static string Path(this IControllerRouteValues route, LinkGenerator generator, HttpContext httpContext, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Path(this IControllerRouteValues route, LinkGenerator generator, HttpContext httpContext, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetPathByAction(httpContext, route.ActionName, route.ControllerName, route.RouteValues, pathBase, fragment, options);
 
   /// <summary>
@@ -253,7 +253,7 @@ public static class RouteValueExtensions
   /// your deployment environment.
   /// </para>
   /// </remarks>
-  public static string Url(this IControllerRouteValues route, LinkGenerator generator, string scheme, HostString host, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Url(this IControllerRouteValues route, LinkGenerator generator, string scheme, HostString host, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetUriByAction(route.ActionName, route.ControllerName, route.RouteValues, scheme, host, pathBase, fragment, options);
 
   /// <summary>
@@ -276,7 +276,7 @@ public static class RouteValueExtensions
   /// your deployment environment.
   /// </para>
   /// </remarks>
-  public static string Url(this IControllerRouteValues route, LinkGenerator generator, HttpContext httpContext, string? scheme = null, HostString? host = null, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Url(this IControllerRouteValues route, LinkGenerator generator, HttpContext httpContext, string? scheme = null, HostString? host = null, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
     => generator.GetUriByAction(httpContext, route.ActionName, route.ControllerName, route.RouteValues, scheme, host, pathBase, fragment, options);
 
   /// <summary>
@@ -288,7 +288,7 @@ public static class RouteValueExtensions
   /// <param name="fragment">A URI fragment. Optional. Appended to the resulting URI.</param>
   /// <param name="options">An optional <see cref="LinkOptions"/>. Settings on provided object override the settings with matching names from <c>RouteOptions</c>.</param>
   /// <returns>A URI with an absolute path, or <see langword="null" /> if a URI cannot be created.</returns>
-  public static string Path(this IRouteValues route, LinkGenerator generator, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Path(this IRouteValues route, LinkGenerator generator, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
     => route switch
     {
       IControllerRouteValues controllerRoute => Path(controllerRoute, generator, pathBase, fragment, options),
@@ -306,7 +306,7 @@ public static class RouteValueExtensions
   /// <param name="fragment">A URI fragment. Optional. Appended to the resulting URI.</param>
   /// <param name="options">An optional <see cref="LinkOptions"/>. Settings on provided object override the settings with matching names from <c>RouteOptions</c>.</param>
   /// <returns>A URI with an absolute path, or <see langword="null" /> if a URI cannot be created.</returns>
-  public static string Path(this IRouteValues route, LinkGenerator generator, HttpContext httpContext, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Path(this IRouteValues route, LinkGenerator generator, HttpContext httpContext, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
     => route switch
     {
       IControllerRouteValues controllerRoute => Path(controllerRoute, generator, httpContext, pathBase, fragment, options),
@@ -333,7 +333,7 @@ public static class RouteValueExtensions
   /// your deployment environment.
   /// </para>
   /// </remarks>
-  public static string Url(this IRouteValues route, LinkGenerator generator, string scheme, HostString host, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Url(this IRouteValues route, LinkGenerator generator, string scheme, HostString host, PathString pathBase = default, FragmentString fragment = default, LinkOptions? options = null)
     => route switch
     {
       IControllerRouteValues controllerRoute => Url(controllerRoute, generator, scheme, host, pathBase, fragment, options),
@@ -361,7 +361,7 @@ public static class RouteValueExtensions
   /// your deployment environment.
   /// </para>
   /// </remarks>
-  public static string Url(this IRouteValues route, LinkGenerator generator, HttpContext httpContext, string? scheme = null, HostString? host = null, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
+  public static string? Url(this IRouteValues route, LinkGenerator generator, HttpContext httpContext, string? scheme = null, HostString? host = null, PathString? pathBase = null, FragmentString fragment = default, LinkOptions? options = null)
     => route switch
     {
       IControllerRouteValues controllerRoute => Url(controllerRoute, generator, httpContext, scheme, host, pathBase, fragment, options),
