@@ -22,6 +22,14 @@ public sealed class CommonTests
     return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
   }
 
+  [Theory]
+  [InlineData(LanguageVersion.CSharp8)]
+  [InlineData(LanguageVersion.CSharp9)]
+  public Task GlobalUsingsNotGeneratedForUnsupportedLanguageVersions(LanguageVersion version)
+  {
+    return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
+  }
+
   [Fact]
   public Task InternalAccessModifierOptionProducesInternalClasses()
   {
@@ -313,6 +321,8 @@ public sealed class CommonTests
   }
 
   [Theory]
+  [InlineData(LanguageVersion.CSharp8)]
+  [InlineData(LanguageVersion.CSharp9)]
   [InlineData(LanguageVersion.CSharp10)]
   [InlineData(LanguageVersion.CSharp11)]
   [InlineData(LanguageVersion.CSharp12)]
@@ -333,8 +343,6 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp7_1)]
   [InlineData(LanguageVersion.CSharp7_2)]
   [InlineData(LanguageVersion.CSharp7_3)]
-  [InlineData(LanguageVersion.CSharp8)]
-  [InlineData(LanguageVersion.CSharp9)]
   public Task UnsupportedLanguageVersionsProduceDiagnostic(LanguageVersion version)
   {
     var source =
