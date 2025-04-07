@@ -127,7 +127,7 @@ internal static class Parser
     var directory = fileInfo.Directory;
     var pathSegments = ImmutableArray.CreateBuilder<string>();
 
-    for (; directory != null && !string.Equals(directory.Name, "Pages", StringComparison.InvariantCultureIgnoreCase); directory = directory.Parent)
+    for (; directory != null && !string.Equals(directory.Name, "Pages", StringComparison.OrdinalIgnoreCase); directory = directory.Parent)
     {
       pathSegments.Insert(0, directory.Name);
     }
@@ -139,7 +139,7 @@ internal static class Parser
 
     var pageNamespace = string.Join("_", pathSegments);
     var areaName = default(string);
-    if (directory.Parent?.Parent?.Name.Equals("Areas", StringComparison.InvariantCultureIgnoreCase) ?? false)
+    if (directory.Parent?.Parent?.Name.Equals("Areas", StringComparison.OrdinalIgnoreCase) ?? false)
     {
       areaName = directory.Parent.Name;
     }

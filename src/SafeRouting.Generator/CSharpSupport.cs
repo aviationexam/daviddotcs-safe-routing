@@ -42,5 +42,5 @@ internal static class CSharpSupport
   public static LiteralExpressionSyntax ToStringLiteralExpression(string value)
     => SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(value));
 
-  private static readonly AssemblyName AssemblyName = Assembly.GetAssembly(typeof(GeneratorSupport)).GetName();
+  private static readonly AssemblyName AssemblyName = Assembly.GetAssembly(typeof(GeneratorSupport))!.GetName();
 }

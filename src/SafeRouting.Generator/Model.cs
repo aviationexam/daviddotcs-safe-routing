@@ -13,8 +13,8 @@ internal sealed record CandidateClassInfo(
 
 internal sealed class CandidateClassInfoEqualityComparer : IEqualityComparer<CandidateClassInfo>
 {
-  public bool Equals(CandidateClassInfo x, CandidateClassInfo y)
-    => Comparer.Equals(x.TypeDeclarationSyntax, y.TypeDeclarationSyntax);
+  public bool Equals(CandidateClassInfo? x, CandidateClassInfo? y)
+    => Comparer.Equals(x?.TypeDeclarationSyntax, y?.TypeDeclarationSyntax);
 
   public int GetHashCode(CandidateClassInfo obj) => obj.GetHashCode();
 
