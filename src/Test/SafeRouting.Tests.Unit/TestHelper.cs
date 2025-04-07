@@ -145,18 +145,11 @@ internal static class TestHelper
 
 internal sealed record AdditionalSource(string Source, string Path = "", CSharpParseOptions? ParseOptions = null);
 
-internal sealed class FixedConfigOptionsProvider : AnalyzerConfigOptionsProvider
+internal sealed class FixedConfigOptionsProvider(AnalyzerConfigOptions options) : AnalyzerConfigOptionsProvider
 {
-  public FixedConfigOptionsProvider(AnalyzerConfigOptions options)
-  {
-    Options = options;
-  }
-
-  public override AnalyzerConfigOptions GlobalOptions => Options;
-  public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => Options;
-  public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => Options;
-
-  private readonly AnalyzerConfigOptions Options;
+  public override AnalyzerConfigOptions GlobalOptions => options;
+  public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => options;
+  public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => options;
 }
 
 internal sealed class TestConfigOptions : AnalyzerConfigOptions, IDictionary<string, string>

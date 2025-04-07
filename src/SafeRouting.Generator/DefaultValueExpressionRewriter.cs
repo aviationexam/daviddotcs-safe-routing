@@ -11,14 +11,8 @@ namespace SafeRouting.Generator;
 /// fully-qualifying any referenced types, and removing all trivia such as
 /// comments and whitespace.
 /// </summary>
-public sealed class DefaultValueExpressionRewriter : CSharpSyntaxRewriter
+public sealed class DefaultValueExpressionRewriter(SemanticModel semanticModel, CancellationToken cancellationToken) : CSharpSyntaxRewriter
 {
-  public DefaultValueExpressionRewriter(SemanticModel semanticModel, CancellationToken cancellationToken)
-  {
-    this.semanticModel = semanticModel;
-    this.cancellationToken = cancellationToken;
-  }
-
   public override SyntaxNode? Visit(SyntaxNode? node)
     => base.Visit(node)?.WithoutTrivia();
 
@@ -49,7 +43,4 @@ public sealed class DefaultValueExpressionRewriter : CSharpSyntaxRewriter
 
   public override SyntaxTrivia VisitTrivia(SyntaxTrivia trivia)
     => default;
-
-  private readonly SemanticModel semanticModel;
-  private readonly CancellationToken cancellationToken;
 }
