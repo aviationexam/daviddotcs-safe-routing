@@ -2,8 +2,17 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using SafeRouting.Generator;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using VerifyTests;
+using VerifyXunit;
+using Xunit;
 
 namespace SafeRouting.Tests.Unit;
 
@@ -144,7 +153,7 @@ internal sealed class TestConfigOptions : AnalyzerConfigOptions, IDictionary<str
   public void Clear() => InternalDictionary.Clear();
   public bool Contains(KeyValuePair<string, string> item) => InternalDictionary.Contains(item);
   public bool ContainsKey(string key) => InternalDictionary.ContainsKey(key);
-  public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex) => (InternalDictionary as IDictionary<string, string>).CopyTo(array, arrayIndex);
+  public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex) => ((ICollection)InternalDictionary).CopyTo(array, arrayIndex);
   public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => InternalDictionary.GetEnumerator();
   public bool Remove(string key) => InternalDictionary.Remove(key);
   public bool Remove(KeyValuePair<string, string> item) => (InternalDictionary as IDictionary<string, string>).Remove(item);

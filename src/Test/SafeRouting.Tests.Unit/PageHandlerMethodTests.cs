@@ -1,4 +1,7 @@
-﻿namespace SafeRouting.Tests.Unit;
+﻿using System.Threading.Tasks;
+using Xunit;
+
+namespace SafeRouting.Tests.Unit;
 
 public sealed class PageHandlerMethodTests
 {
