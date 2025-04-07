@@ -50,9 +50,10 @@ public sealed class RouteValuesTagHelper : TagHelper
       _ => null
     };
 
-    if (urlAttributeName is null
-      || ForRoute is null
-      || ForRoute.Url(Url) is not { } url)
+    if (
+      urlAttributeName is null
+      || ForRoute?.Url(Url) is not { } url
+    )
     {
       return;
     }
