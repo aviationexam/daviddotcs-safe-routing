@@ -118,7 +118,9 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), additionalSources: [TestHelper.GetFromKeyedServicesAttributeAdditionalSource()],
-      cancellationToken: TestContext.Current.CancellationToken);
+      """,
+      path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
+      cancellationToken: TestContext.Current.CancellationToken
+    );
   }
 }

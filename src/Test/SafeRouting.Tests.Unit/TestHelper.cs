@@ -41,28 +41,6 @@ internal static class TestHelper
     return Path.Combine(pathSegments.Prepend(PathRoot).ToArray());
   }
 
-  public static AdditionalSource GetFromKeyedServicesAttributeAdditionalSource()
-  {
-    return new(
-      """
-      #if !NET8_0_OR_GREATER
-      using System;
-
-      namespace Microsoft.Extensions.DependencyInjection
-      {
-        [AttributeUsage(AttributeTargets.Parameter)]
-        public class FromKeyedServicesAttribute : Attribute
-        {
-          public FromKeyedServicesAttribute(object key) => Key = key;
-      
-          public object Key { get; }
-        }
-      }
-      #endif
-      """
-    );
-  }
-
   private static string PathRoot { get; } = Path.GetPathRoot(Environment.CurrentDirectory)!;
 
   // There's probably a less heavy-handed way of providing required ASP.NET Core assemblies

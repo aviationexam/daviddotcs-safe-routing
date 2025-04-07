@@ -300,7 +300,9 @@ public sealed class ControllerActionParameterTests
       {
         public IActionResult Index([FromServices] string fromServices, [FromKeyedServices("foo")] object fromKeyedServices) => View();
       }
-      """, additionalSources: [TestHelper.GetFromKeyedServicesAttributeAdditionalSource()], cancellationToken: TestContext.Current.CancellationToken);
+      """,
+      cancellationToken: TestContext.Current.CancellationToken
+    );
   }
 
   [Fact]
