@@ -7,7 +7,7 @@ public sealed class CommonTests
   [Fact]
   public Task EmptySourceProducesCommonOutput()
   {
-    return TestHelper.Verify("");
+    return TestHelper.Verify("", cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Theory]
@@ -16,7 +16,7 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp12)]
   public Task GlobalUsingsGeneratedForSupportedLanguageVersions(LanguageVersion version)
   {
-    return TestHelper.Verify("", languageVersion: version, parameters: [version]);
+    return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Theory]
@@ -24,13 +24,14 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp9)]
   public Task GlobalUsingsNotGeneratedForUnsupportedLanguageVersions(LanguageVersion version)
   {
-    return TestHelper.Verify("", languageVersion: version, parameters: [version]);
+    return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InternalAccessModifierOptionProducesInternalClasses()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -38,7 +39,7 @@ public sealed class CommonTests
       public sealed class ProductsController : Controller
       {
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -49,20 +50,20 @@ public sealed class CommonTests
       public sealed class EditModel : PageModel
       {
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_access_modifier"] = "internal" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
+      options: new TestConfigOptions { ["safe_routing.generated_access_modifier"] = "internal" }, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidAccessModifierOptionProducesDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -70,7 +71,7 @@ public sealed class CommonTests
       public sealed class ProductsController : Controller
       {
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -81,20 +82,20 @@ public sealed class CommonTests
       public sealed class EditModel : PageModel
       {
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_access_modifier"] = "invalid access modifier" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
+      options: new TestConfigOptions { ["safe_routing.generated_access_modifier"] = "invalid access modifier" }, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidNamespaceOptionProducesDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -102,7 +103,7 @@ public sealed class CommonTests
       public sealed class ProductsController : Controller
       {
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -113,20 +114,20 @@ public sealed class CommonTests
       public sealed class EditModel : PageModel
       {
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_namespace"] = "x.1nvalid Namespace,[]!" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
+      options: new TestConfigOptions { ["safe_routing.generated_namespace"] = "x.1nvalid Namespace,[]!" }, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidParameterCaseOptionProducesDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -134,7 +135,7 @@ public sealed class CommonTests
       {
         [FromRoute]
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -145,20 +146,20 @@ public sealed class CommonTests
       {
         [FromRoute]
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_parameter_case"] = "invalid" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), options: new TestConfigOptions { ["safe_routing.generated_parameter_case"] = "invalid" },
+      cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NamespaceOptionChangesNamespace()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -166,7 +167,7 @@ public sealed class CommonTests
       public sealed class ProductsController : Controller
       {
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -177,20 +178,20 @@ public sealed class CommonTests
       public sealed class EditModel : PageModel
       {
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_namespace"] = "Test.Namespace" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
+      options: new TestConfigOptions { ["safe_routing.generated_namespace"] = "Test.Namespace" }, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ParameterCaseOptionProducesPascalCaseParameters()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -198,7 +199,7 @@ public sealed class CommonTests
       {
         [FromRoute]
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -209,20 +210,20 @@ public sealed class CommonTests
       {
         [FromRoute]
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_parameter_case"] = "pascal" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), options: new TestConfigOptions { ["safe_routing.generated_parameter_case"] = "pascal" },
+      cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PublicAccessModifierOptionProducesPublicClasses()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -230,7 +231,7 @@ public sealed class CommonTests
       public sealed class ProductsController : Controller
       {
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -241,20 +242,20 @@ public sealed class CommonTests
       public sealed class EditModel : PageModel
       {
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_access_modifier"] = "public" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), options: new TestConfigOptions { ["safe_routing.generated_access_modifier"] = "public" },
+      cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task StandardControllerAndPageModelProduceFullOutput()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using System.Collections.Generic;
@@ -264,7 +265,7 @@ public sealed class CommonTests
       {
         public string? Name { get; set; }
         public Dictionary<string, object>? Foo { get; set; }
-
+      
         public IActionResult Index(int id, Dictionary<string, object> bar)
         {
           return View();
@@ -276,18 +277,19 @@ public sealed class CommonTests
       {
         public string? Title { get; set; }
         public Dictionary<string, object>? Foo { get; set; }
-
+      
         public void OnGet(string name, Dictionary<string, object> bar)
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task StandardParameterCaseOptionProducesCamelCaseParameters()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -295,7 +297,7 @@ public sealed class CommonTests
       {
         [FromRoute]
         public string? Name { get; set; }
-
+      
         public IActionResult Index(int id)
         {
           return View();
@@ -306,14 +308,13 @@ public sealed class CommonTests
       {
         [FromRoute]
         public string? Title { get; set; }
-
+      
         public void OnGet(string name)
         {
         }
       }
-      """,
-    path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-    options: new TestConfigOptions { ["safe_routing.generated_parameter_case"] = "standard" });
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
+      options: new TestConfigOptions { ["safe_routing.generated_parameter_case"] = "standard" }, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Theory]
@@ -324,7 +325,7 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp12)]
   public Task SupportedLanguageVersionsBuild(LanguageVersion version)
   {
-    return TestHelper.Verify("", languageVersion: version, parameters: [version]);
+    return TestHelper.Verify("", languageVersion: version, parameters: [version], cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Theory]
@@ -340,7 +341,8 @@ public sealed class CommonTests
   [InlineData(LanguageVersion.CSharp7_3)]
   public Task UnsupportedLanguageVersionsProduceDiagnostic(LanguageVersion version)
   {
-    var source = """
+    var source =
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using System.Collections.Generic;
@@ -350,7 +352,7 @@ public sealed class CommonTests
       {
         public string? Name { get; set; }
         public Dictionary<string, object>? Foo { get; set; }
-
+      
         public IActionResult Index(int id, Dictionary<string, object> bar)
         {
           return View();
@@ -362,18 +364,14 @@ public sealed class CommonTests
       {
         public string? Title { get; set; }
         public Dictionary<string, object>? Foo { get; set; }
-
+      
         public void OnGet(string name, Dictionary<string, object> bar)
         {
         }
       }
       """;
 
-    return TestHelper.Verify(source,
-      path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"),
-      languageVersion: version,
-      nullableContextOptions: Microsoft.CodeAnalysis.NullableContextOptions.Disable,
-      parameters: [version],
-      testCompilation: false);
+    return TestHelper.Verify(source, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), languageVersion: version,
+      nullableContextOptions: Microsoft.CodeAnalysis.NullableContextOptions.Disable, parameters: [version], testCompilation: false, cancellationToken: TestContext.Current.CancellationToken);
   }
 }

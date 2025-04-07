@@ -5,7 +5,8 @@ public sealed class PageHandlerParameterTests
   [Fact]
   public Task CancellationTokenParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using System.Threading;
 
@@ -15,13 +16,14 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ExcludedParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -31,13 +33,14 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidParameterNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -47,13 +50,14 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NonUrlBoundParametersAreExcludedFromSignature()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -63,13 +67,14 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task RegularParametersAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -78,13 +83,14 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task RouteGeneratorNameAttributesRenameParameters()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -94,13 +100,14 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ServiceBoundParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using Microsoft.Extensions.DependencyInjection;
@@ -111,6 +118,7 @@ public sealed class PageHandlerParameterTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), additionalSources: [TestHelper.GetFromKeyedServicesAttributeAdditionalSource()]);
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), additionalSources: [TestHelper.GetFromKeyedServicesAttributeAdditionalSource()],
+      cancellationToken: TestContext.Current.CancellationToken);
   }
 }

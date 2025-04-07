@@ -5,20 +5,22 @@ public sealed class ControllerActionParameterTests
   [Fact]
   public Task ActionParametersAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult Index(string someValue) => View(someValue);
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task CancellationTokenParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System.Threading;
 
@@ -26,13 +28,14 @@ public sealed class ControllerActionParameterTests
       {
         public IActionResult Index(CancellationToken token) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task DefaultValuesAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System;
 
@@ -53,38 +56,40 @@ public sealed class ControllerActionParameterTests
           int l = sizeof(double),
           byte m = unchecked((byte)~0x1^2),
           string n =
-
+      
             /* delimited comment 1 */
             // single-line comment 1
-
+      
             $"_{nameof(ProductsController)}_" + "z_" /* delimited comment inside expression */ + nameof(ProductsController) // single-line comment inside expression
               + $"{nameof(ProductsController) + nameof(ProductsController)}"
-
+      
             /* delimited comment 2 */
             // single-line comment 2
-
+      
         ) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task EscapedParameterNamesAreHandled()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult Index(string @class) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ExcludedParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -92,13 +97,14 @@ public sealed class ControllerActionParameterTests
       {
         public IActionResult Index([ExcludeFromRouteGenerator] string fromServices) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidParameterNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -111,26 +117,28 @@ public sealed class ControllerActionParameterTests
           [RouteGeneratorName("@")] string d
         ) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NonUrlBoundParametersAreExcludedFromSignature()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult Index([FromBody] string fromBody, [FromForm] string fromForm, [FromHeader] string fromHeader) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NullableContextDisabledInlineIsRespected()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System.Collections.Generic;
 
@@ -140,13 +148,14 @@ public sealed class ControllerActionParameterTests
         public IActionResult A(IEnumerable<string> x, string y) => View(new { x, y });
       #nullable restore
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NullableContextDisabledIsRespected()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System.Collections.Generic;
 
@@ -159,26 +168,28 @@ public sealed class ControllerActionParameterTests
       #nullable restore
         ) => View(new { x, y });
       }
-      """, nullableContextOptions: Microsoft.CodeAnalysis.NullableContextOptions.Disable);
+      """, nullableContextOptions: Microsoft.CodeAnalysis.NullableContextOptions.Disable, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NullableRefenceTypeAnnotationsAreRespected()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult A(string a, string? b) => View(new { a, b });
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NullableRefenceTypePermutationsAreHandledForIndexers()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System.Collections.Generic;
 
@@ -246,13 +257,14 @@ public sealed class ControllerActionParameterTests
       #nullable restore
           ) => View(new { a, b });
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task RouteGeneratorNameAttributesRenameParameters()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -273,13 +285,14 @@ public sealed class ControllerActionParameterTests
           [RouteGeneratorName("l\u00ADa")] string l // Cf category
         ) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ServiceBoundParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.Extensions.DependencyInjection;
 
@@ -287,32 +300,34 @@ public sealed class ControllerActionParameterTests
       {
         public IActionResult Index([FromServices] string fromServices, [FromKeyedServices("foo")] object fromKeyedServices) => View();
       }
-      """, additionalSources: [TestHelper.GetFromKeyedServicesAttributeAdditionalSource()]);
+      """, additionalSources: [TestHelper.GetFromKeyedServicesAttributeAdditionalSource()], cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task SubsequentBindingAttributesAreIgnored()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult Index([FromQuery, FromBody, FromForm, FromHeader] string includedParameter, [FromBody, FromQuery, FromRoute] string excludedParameter) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task UrlBoundParametersAreIncludedInSignature()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult Index([FromQuery] string fromQuery, [FromRoute] string fromRoute) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 }

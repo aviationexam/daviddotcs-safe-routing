@@ -30,6 +30,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{CFB644F0-2666-4C46-AAE5-FA3FD1AA4BCE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{60AF66E6-866A-4358-BCFE-A137C9D34B1A}"
+	ProjectSection(SolutionItems) = preProject
+		Test\Directory.Build.props = Test\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{DC1FF922-DF35-4B03-8CAA-59ABA30FB813}"
 EndProject

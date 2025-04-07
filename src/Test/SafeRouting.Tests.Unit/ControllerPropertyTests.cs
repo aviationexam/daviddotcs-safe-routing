@@ -5,23 +5,25 @@ public sealed class ControllerPropertyTests
   [Fact]
   public Task BindPropertiesAttributesAreConsidered()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       [BindProperties]
       public sealed class ProductsController : Controller
       {
         public string? SomeProperty { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task BindPropertiesAttributesAreInherited()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public abstract class ProductsControllerBaseBase : Controller
@@ -38,60 +40,63 @@ public sealed class ControllerPropertyTests
       public sealed class ProductsController : ProductsControllerBase
       {
         public string? C { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task BindPropertyAttributeNamesAreConsidered()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [BindProperty(Name = "RenamedBindProperty")]
         public string? BindProperty { get; set; }
-
+      
         [FromForm(Name = "RenamedFromForm")]
         public string? FromForm { get; set; }
-
+      
         [FromHeader(Name = "RenamedFromHeader")]
         public string? FromHeader { get; set; }
-
+      
         [FromQuery(Name = "RenamedFromQuery")]
         public string? FromQuery { get; set; }
-
+      
         [FromRoute(Name = "RenamedFromRoute")]
         public string? FromRoute { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task EscapedPropertyNamesAreHandled()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       [BindProperties]
       public sealed class ProductsController : Controller
       {
         public string? @class { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ExcludedPropertiesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -100,16 +105,17 @@ public sealed class ControllerPropertyTests
       {
         [ExcludeFromRouteGenerator]
         public string? MyProperty { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidPropertyNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -118,146 +124,150 @@ public sealed class ControllerPropertyTests
         [RouteGeneratorName("%&*$#(.")]
         [FromForm]
         public string? FromForm { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PrivatePropertiesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [BindProperty]
         private string? BindProperty { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PropertyBindingAttributesAreConsidered()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [BindProperty]
         public string? BindProperty { get; set; }
-
+      
         [FromBody]
         public string? FromBody { get; set; }
-
+      
         [FromForm]
         public string? FromForm { get; set; }
-
+      
         [FromHeader]
         public string? FromHeader { get; set; }
-
+      
         [FromQuery]
         public string? FromQuery { get; set; }
-
+      
         [FromRoute]
         public string? FromRoute { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PropertiesWithoutPublicGettersAndSettersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [BindProperty]
         public string? Excluded1 { get; }
-
+      
         [BindProperty]
         public string? Excluded2 { private get; set; }
-
+      
         [BindProperty]
         public string? Excluded3 { get; private set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
-  public Task RouteGeneratorNameAttributesRenameProperties()
-  {
-    return TestHelper.Verify("""
-      using Microsoft.AspNetCore.Mvc;
-      using SafeRouting;
+  public Task RouteGeneratorNameAttributesRenameProperties() => TestHelper.Verify(
+    """
+    using Microsoft.AspNetCore.Mvc;
+    using SafeRouting;
 
-      [BindProperties]
-      public sealed class ProductsController : Controller
-      {
-        [RouteGeneratorName("Renamed")]
-        public string? MyProperty { get; set; }
-
-        public IActionResult Index() => View();
-      }
-      """);
-  }
+    [BindProperties]
+    public sealed class ProductsController : Controller
+    {
+      [RouteGeneratorName("Renamed")]
+      public string? MyProperty { get; set; }
+    
+      public IActionResult Index() => View();
+    }
+    """, cancellationToken: TestContext.Current.CancellationToken);
 
   [Fact]
   public Task StaticPropertiesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [BindProperty]
         public static string? BindProperty { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task SubsequentPropertyBindingAttributesAreIgnored()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [BindProperty(SupportsGet = true), FromBody, FromForm, FromHeader]
         public string? IncludedProperty { get; set; }
-
+      
         [FromBody, BindProperty(SupportsGet = true), FromQuery, FromRoute]
         public string? ExcludedProperty { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task UnboundPropertiesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public string? SomeProperty { get; set; }
-
+      
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 }

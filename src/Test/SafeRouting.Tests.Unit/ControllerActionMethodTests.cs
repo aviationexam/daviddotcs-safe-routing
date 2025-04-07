@@ -5,7 +5,8 @@ public sealed class ControllerActionMethodTests
   [Fact]
   public Task ActionAreaAttributesOverrideController()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       [Area("Foo")]
@@ -14,13 +15,14 @@ public sealed class ControllerActionMethodTests
         [Area("Bar")]
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ActionNameAttributesRenameActions()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
@@ -28,13 +30,14 @@ public sealed class ControllerActionMethodTests
         [ActionName("Renamed")]
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task AreaAttributesAreConsidered()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
@@ -42,13 +45,14 @@ public sealed class ControllerActionMethodTests
         [Area("Foo")]
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task AsyncMethodNameSuffixesAreTrimmed()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System.Threading.Tasks;
 
@@ -56,13 +60,14 @@ public sealed class ControllerActionMethodTests
       {
         public Task<IActionResult> IndexAsync() => Task.FromResult((IActionResult)View());
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task AsyncMethodsNamedAsyncAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using System.Threading.Tasks;
 
@@ -70,13 +75,14 @@ public sealed class ControllerActionMethodTests
       {
         public Task<IActionResult> Async() => Task.FromResult((IActionResult)View());
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ExcludedMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -85,26 +91,28 @@ public sealed class ControllerActionMethodTests
         [ExcludeFromRouteGenerator]
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task GenericMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult Index<T>() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidMethodNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -113,13 +121,14 @@ public sealed class ControllerActionMethodTests
         [RouteGeneratorName("%&*$#(.")]
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task MethodsWithByRefParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
@@ -128,13 +137,14 @@ public sealed class ControllerActionMethodTests
         public IActionResult Out(out int foo) { foo = 2; return View(); }
         public IActionResult Ref(ref int foo) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task MethodsWithDifferentNamesAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
@@ -142,13 +152,14 @@ public sealed class ControllerActionMethodTests
         public IActionResult Index() => View();
         public IActionResult Product(int id) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task MethodsWithSameNameButDifferentParametersAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
@@ -157,47 +168,49 @@ public sealed class ControllerActionMethodTests
         public IActionResult Index(string someValue) => View();
         public IActionResult Index(string someValue, string someOtherValue) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task MethodsWithSameResultingSignatureAreCollapsed()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [HttpGet]
         public IActionResult Index() => View();
-
+      
         [HttpPost]
         public IActionResult Index([FromServices] string someValue) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task MethodsWithSameResultingSignatureButDifferentParameterPropertiesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         [HttpGet]
         public IActionResult Index() => View();
-
+      
         [HttpPost]
         public IActionResult Index([FromForm] string someValue) => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
-  public Task NonActionAttributeMethodsAreExcluded()
-  {
-    return TestHelper.Verify("""
+  public Task NonActionAttributeMethodsAreExcluded() =>
+    TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
@@ -205,39 +218,41 @@ public sealed class ControllerActionMethodTests
         [NonAction]
         public IActionResult Index() => View();
       }
-      """);
-  }
+      """, cancellationToken: TestContext.Current.CancellationToken);
 
   [Fact]
   public Task PrivateMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         private IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ReservedMethodNamesAreEscaped()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public IActionResult @class() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task RouteGeneratorNameAttributesRenameMethods()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using SafeRouting;
 
@@ -246,19 +261,20 @@ public sealed class ControllerActionMethodTests
         [RouteGeneratorName("Renamed")]
         public IActionResult Index() => View();
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task StaticMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
 
       public sealed class ProductsController : Controller
       {
         public static void Index() { }
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 }

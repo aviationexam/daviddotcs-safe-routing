@@ -91,7 +91,7 @@ public sealed class ControllerIntegrationTests
   [Fact]
   public void ParameterValuesCanBeChanged()
   {
-    var page = 5;
+    const int page = 5;
     var route = Routes.Controllers.Account.List(page);
 
     Assert.Equal("Account", route.ControllerName);
@@ -106,8 +106,8 @@ public sealed class ControllerIntegrationTests
       Assert.Equal(page, x.Value);
     });
 
-    page = 10;
-    route[route.Parameters.Page] = page;
+    const int page2 = 10;
+    route[route.Parameters.Page] = page2;
 
     Assert.Equal("Account", route.ControllerName);
     Assert.Equal("List", route.ActionName);
@@ -118,7 +118,7 @@ public sealed class ControllerIntegrationTests
     }, x =>
     {
       Assert.Equal(route.Parameters.Page.Name, x.Key);
-      Assert.Equal(page, x.Value);
+      Assert.Equal(page2, x.Value);
     });
   }
 

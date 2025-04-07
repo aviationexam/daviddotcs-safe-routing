@@ -5,7 +5,8 @@ public sealed class PageHandlerMethodTests
   [Fact]
   public Task AsyncMethodNameSuffixesAreTrimmed()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using System.Threading.Tasks;
 
@@ -13,13 +14,14 @@ public sealed class PageHandlerMethodTests
       {
         public Task OnGetAsync() => Task.CompletedTask;
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task ExcludedHandlersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -30,13 +32,14 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task GenericMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -45,13 +48,14 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidMethodNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -62,13 +66,14 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task MethodsWithByRefParametersAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -77,28 +82,27 @@ public sealed class PageHandlerMethodTests
         public void OnGetOut(out int foo) { foo = 2; }
         public void OnGetRef(ref int foo) { }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
-  public Task MethodsWithDifferentHandlerNamesAreIncluded()
-  {
-    return TestHelper.Verify("""
-      using Microsoft.AspNetCore.Mvc.RazorPages;
+  public Task MethodsWithDifferentHandlerNamesAreIncluded() => TestHelper.Verify(
+    """
+    using Microsoft.AspNetCore.Mvc.RazorPages;
 
-      public sealed class EditModel : PageModel
-      {
-        public void OnGet() { }
-        public void OnGetIn() { }
-        public void OnGetOut() { }
-      }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
-  }
+    public sealed class EditModel : PageModel
+    {
+      public void OnGet() { }
+      public void OnGetIn() { }
+      public void OnGetOut() { }
+    }
+    """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
 
   [Fact]
   public Task MethodsWithSameNameProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -106,13 +110,14 @@ public sealed class PageHandlerMethodTests
         public void OnGet() { }
         public void OnGet(string foo) { }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NonHandlerAttributeMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -122,13 +127,14 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PrivateMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -137,13 +143,14 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task RouteGeneratorNameAttributesRenameMethods()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -154,13 +161,14 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task StaticMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -169,6 +177,6 @@ public sealed class PageHandlerMethodTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 }

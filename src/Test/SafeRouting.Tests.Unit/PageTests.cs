@@ -3,24 +3,23 @@
 public sealed class PageTests
 {
   [Fact]
-  public Task AbstractPagesAreExcluded()
-  {
-    return TestHelper.Verify("""
-      using Microsoft.AspNetCore.Mvc.RazorPages;
+  public Task AbstractPagesAreExcluded() => TestHelper.Verify(
+    """
+    using Microsoft.AspNetCore.Mvc.RazorPages;
 
-      public abstract class EditModel : PageModel
+    public abstract class EditModel : PageModel
+    {
+      public void OnGet()
       {
-        public void OnGet()
-        {
-        }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
-  }
+    }
+    """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
 
   [Fact]
   public Task ConflictingPageNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       namespace A
@@ -42,13 +41,14 @@ public sealed class PageTests
           }
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task DeeplyNestedPagesHaveFolderNamesSeparatedWithUnderscores()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -57,40 +57,40 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Foo", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Foo", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task EmptyPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
       {
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
-  public Task EscapedPageNamesAreHandled()
-  {
-    return TestHelper.Verify("""
-      using Microsoft.AspNetCore.Mvc.RazorPages;
+  public Task EscapedPageNamesAreHandled() => TestHelper.Verify(
+    """
+    using Microsoft.AspNetCore.Mvc.RazorPages;
 
-      public sealed class @class : PageModel
+    public sealed class @class : PageModel
+    {
+      public void OnGet()
       {
-        public void OnGet()
-        {
-        }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
-  }
+    }
+    """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
 
   [Fact]
   public Task ExcludedPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -101,7 +101,7 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   /// <remarks>
@@ -110,7 +110,8 @@ public sealed class PageTests
   [Fact]
   public Task GenericPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel<T> : PageModel
@@ -119,13 +120,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task HttpMethodsThatAreIncorrectlyCapitalisedAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -143,13 +145,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task HttpMethodsThatAreSupportedAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -176,13 +179,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task HttpMethodsThatAreNotSupportedAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -194,13 +198,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InheritedMembersAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc;
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -208,7 +213,7 @@ public sealed class PageTests
       {
         [BindProperty]
         public string? MyProperty { get; set; }
-
+      
         public void OnGet()
         {
         }
@@ -217,7 +222,7 @@ public sealed class PageTests
       public sealed class EditModel : EditModelBase
       {
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   /// <remarks>
@@ -226,7 +231,8 @@ public sealed class PageTests
   [Fact]
   public Task InternalPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       internal sealed class EditModel : PageModel
@@ -235,13 +241,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task InvalidPageNamesProduceDiagnostic()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -252,7 +259,7 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
@@ -261,18 +268,19 @@ public sealed class PageTests
     var additionalSources = new[]
     {
       new AdditionalSource("""
-        using Microsoft.AspNetCore.Mvc.RazorPages;
+                           using Microsoft.AspNetCore.Mvc.RazorPages;
 
-        public sealed class ViewModel : PageModel
-        {
-          public void OnGet()
-          {
-          }
-        }
-        """, Path: TestHelper.MakePath("Project", "Pages", "Products", "View.cshtml.cs"))
+                           public sealed class ViewModel : PageModel
+                           {
+                             public void OnGet()
+                             {
+                             }
+                           }
+                           """, Path: TestHelper.MakePath("Project", "Pages", "Products", "View.cshtml.cs"))
     };
 
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -281,7 +289,7 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), additionalSources: additionalSources);
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), additionalSources: additionalSources, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   /// <remarks>
@@ -290,7 +298,8 @@ public sealed class PageTests
   [Fact]
   public Task NestedPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class Foo
@@ -302,26 +311,28 @@ public sealed class PageTests
           }
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NonPageModelClassesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       public sealed class EditModel
       {
         public void OnGet()
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task NonPublicPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       internal sealed class EditModel : PageModel
@@ -330,7 +341,7 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
@@ -339,18 +350,19 @@ public sealed class PageTests
     var additionalSources = new[]
     {
       new AdditionalSource("""
-        using Microsoft.AspNetCore.Mvc.RazorPages;
+                           using Microsoft.AspNetCore.Mvc.RazorPages;
 
-        public partial class IndexModel : PageModel
-        {
-          public void OnPost()
-          {
-          }
-        }
-        """)
+                           public partial class IndexModel : PageModel
+                           {
+                             public void OnPost()
+                             {
+                             }
+                           }
+                           """)
     };
 
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public partial class IndexModel
@@ -359,7 +371,7 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"), additionalSources: additionalSources);
+      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"), additionalSources: additionalSources, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
@@ -368,18 +380,19 @@ public sealed class PageTests
     var additionalSources = new[]
     {
       new AdditionalSource("""
-        using Microsoft.AspNetCore.Mvc.RazorPages;
+                           using Microsoft.AspNetCore.Mvc.RazorPages;
 
-        public partial class IndexModel
-        {
-          public void OnPost()
-          {
-          }
-        }
-        """)
+                           public partial class IndexModel
+                           {
+                             public void OnPost()
+                             {
+                             }
+                           }
+                           """)
     };
 
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public partial class IndexModel : PageModel
@@ -388,13 +401,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"), additionalSources: additionalSources);
+      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"), additionalSources: additionalSources, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesInNonCshtmlDotCsFilesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class IndexModel : PageModel
@@ -403,13 +417,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Index.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Index.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesInPagesDirectoryHaveNothingAddedToClassName()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class IndexModel : PageModel
@@ -418,13 +433,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesInPagesDirectoryOnRootAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class IndexModel : PageModel
@@ -433,13 +449,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Pages", "Index.cshtml.cs"));
+      """, path: TestHelper.MakePath("Pages", "Index.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesOutsideOfAPagesDirectoryAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class IndexModel : PageModel
@@ -448,13 +465,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Index.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Index.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesWithAGetHandlerAndFilePathAreIncluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -463,13 +481,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesWithAreaFilePathsAreConsidered()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -478,13 +497,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Areas", "AreaName", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Areas", "AreaName", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesWithoutFilePathAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class EditModel : PageModel
@@ -493,13 +513,14 @@ public sealed class PageTests
         {
         }
       }
-      """);
+      """, cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task PagesWithoutHandlerMethodsAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
 
       public sealed class IndexModel : PageModel
@@ -508,13 +529,14 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Index.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task RouteGeneratorNameAttributesRenameClasses()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       using Microsoft.AspNetCore.Mvc.RazorPages;
       using SafeRouting;
 
@@ -525,19 +547,20 @@ public sealed class PageTests
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 
   [Fact]
   public Task StaticPagesAreExcluded()
   {
-    return TestHelper.Verify("""
+    return TestHelper.Verify(
+      """
       public static class EditModel
       {
         public static void OnGet()
         {
         }
       }
-      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"));
+      """, path: TestHelper.MakePath("Project", "Pages", "Products", "Edit.cshtml.cs"), cancellationToken: TestContext.Current.CancellationToken);
   }
 }
