@@ -18,4 +18,18 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
+    <AdditionalFiles Include="PublicAPI.net\PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.net\PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <AdditionalFiles Include="PublicAPI.netstandard\PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.netstandard\PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PublicAPI.netstandard\" />
+  </ItemGroup>
+
 </Project>
