@@ -1,13 +1,21 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SafeRouting.Generator;
 
 internal static class Emitter
 {
-  public static string Emit<T, TMethod>(ImmutableArray<T> items, GeneratorOptions options, CancellationToken cancellationToken)
+  public static string Emit<T, TMethod>(
+    ImmutableArray<T> items,
+    GeneratorOptions options,
+    CancellationToken cancellationToken
+  )
     where T : IMvcObjectInfo<TMethod>
     where TMethod : IMvcMethodInfo
   {
@@ -131,6 +139,7 @@ internal static class Emitter
     writer.Indent--;
     writer.WriteLine("}");
   }
+
   private static void WriteMethodClass<T, TMethod>(IndentedTextWriter writer, GeneratorOptions options, T item, string supportNamespace)
     where T : IMvcObjectInfo<TMethod>
     where TMethod : IMvcMethodInfo
@@ -159,6 +168,7 @@ internal static class Emitter
     writer.Indent--;
     writer.WriteLine("}");
   }
+
   private static void WriteMethodParameters(IndentedTextWriter writer, GeneratorOptions options, MvcMethodParameterInfo[] parameters)
   {
     var indentLevel = writer.Indent;
@@ -199,6 +209,7 @@ internal static class Emitter
 
     writer.Indent = indentLevel;
   }
+
   private static void WriteParameterDataClass<T, TMethod>(IndentedTextWriter writer, GeneratorOptions options, T item, IMvcMethodInfo method)
     where T : IMvcObjectInfo<TMethod>
     where TMethod : IMvcMethodInfo
@@ -226,7 +237,8 @@ internal static class Emitter
       }
 
       writer.WriteLine("/// <summary>");
-      writer.WriteLine($"""/// Route key for the <c>{parameter.OriginalName}</c> parameter in <see cref="{CSharpSupport.EscapeXmlDocType($"{item.FullyQualifiedTypeName}.{method.FullyQualifiedMethodDeclaration}")}"/>.""");
+      writer.WriteLine(
+        $"""/// Route key for the <c>{parameter.OriginalName}</c> parameter in <see cref="{CSharpSupport.EscapeXmlDocType($"{item.FullyQualifiedTypeName}.{method.FullyQualifiedMethodDeclaration}")}"/>.""");
       writer.WriteLine("/// </summary>");
       WriteRouteKeyProperty(writer,
         scopeType: "ParameterData",
@@ -238,6 +250,7 @@ internal static class Emitter
     writer.Indent--;
     writer.WriteLine("}");
   }
+
   private static void WritePropertyDataClass<T, TMethod>(IndentedTextWriter writer, GeneratorOptions options, T item)
     where T : IMvcObjectInfo<TMethod>
     where TMethod : IMvcMethodInfo
@@ -272,6 +285,7 @@ internal static class Emitter
     writer.Indent--;
     writer.WriteLine("}");
   }
+
   private static void WriteRouteKeyProperty(IndentedTextWriter writer, string scopeType, TypeInfo valueType, string propertyName, string routeKeyName)
   {
     var indentLevel = writer.Indent;
@@ -296,6 +310,7 @@ internal static class Emitter
       writer.Indent = indentLevel;
     }
   }
+
   private static void WriteRouteKeyIndexer(IndentedTextWriter writer, string scopeType, TypeInfo valueType)
   {
     var indentLevel = writer.Indent;
@@ -317,6 +332,7 @@ internal static class Emitter
 
     writer.Indent = indentLevel;
   }
+
   private static void WriteRouteValuesClass<T, TMethod>(IndentedTextWriter writer, GeneratorOptions options, T item, IMvcMethodInfo method)
     where T : IMvcObjectInfo<TMethod>
     where TMethod : IMvcMethodInfo
@@ -377,7 +393,8 @@ internal static class Emitter
 
     if (consideredParameters.Length > 0)
     {
-      WriteRouteValuesClassMembers(writer, $"{method.UniqueName}.ParameterData", consideredParameters.Select(x => x.Type), $"{item.FullyQualifiedTypeName}.{method.FullyQualifiedMethodDeclaration}", MemberType.Parameter);
+      WriteRouteValuesClassMembers(writer, $"{method.UniqueName}.ParameterData", consideredParameters.Select(x => x.Type), $"{item.FullyQualifiedTypeName}.{method.FullyQualifiedMethodDeclaration}",
+        MemberType.Parameter);
     }
 
     writer.Indent--;
@@ -396,7 +413,9 @@ internal static class Emitter
       writer.WriteLine("}");
     }
   }
-  private static void WriteRouteValuesClassMembers(IndentedTextWriter writer, string memberDataClassName, IEnumerable<TypeInfo> memberTypes, string fullyQualifiedSourceIdentifier, MemberType memberType)
+
+  private static void WriteRouteValuesClassMembers(IndentedTextWriter writer, string memberDataClassName, IEnumerable<TypeInfo> memberTypes, string fullyQualifiedSourceIdentifier,
+    MemberType memberType)
   {
     writer.WriteLineNoTabs(s: null);
     writer.WriteLine("/// <summary>");
@@ -431,6 +450,7 @@ internal static class Emitter
       WriteRouteKeyIndexer(writer, scopeType: memberDataClassName, valueType: parameterType);
     }
   }
+
   private static ImmutableArray<TypeInfo> ConsolidateTypes(IEnumerable<TypeInfo> types)
   {
     // 1. Group all types by their names without nullable reference type annotations.
@@ -468,6 +488,7 @@ internal static class Emitter
 
     return results.ToImmutable();
   }
+
   private static string FormatIdentifier(string identifier, IdentifierCase forcedCase)
   {
     return forcedCase switch

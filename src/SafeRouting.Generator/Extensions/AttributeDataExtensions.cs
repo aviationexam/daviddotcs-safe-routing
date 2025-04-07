@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SafeRouting.Generator;
+namespace SafeRouting.Generator.Extensions;
 
 internal static class AttributeDataExtensions
 {

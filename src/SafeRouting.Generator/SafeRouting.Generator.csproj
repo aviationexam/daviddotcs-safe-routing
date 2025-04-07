@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <IsRoslynComponent>true</IsRoslynComponent>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
@@ -15,10 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="H.Generators.Extensions" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="..\..\README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
@@ -33,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SafeRouting.Common\SafeRouting.Common.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\SafeRouting.Common\SafeRouting.Common.csproj" />
   </ItemGroup>
 
 </Project>
